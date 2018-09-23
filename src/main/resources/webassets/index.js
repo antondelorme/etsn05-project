@@ -3,14 +3,6 @@ base.mainController = (function() {
 
     var routingTable = {
         // first in table is the default
-        'hello': {
-            partial: 'hello/hello.html',
-            controller: base.helloController
-        },
-        'foo': {
-            partial: 'foo/foo.html',
-            controller: base.fooController
-        },
         'admin': {
             partial: 'admin/user-admin.html',
             controller: base.userAdminController

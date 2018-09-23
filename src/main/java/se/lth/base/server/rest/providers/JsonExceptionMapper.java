@@ -1,6 +1,6 @@
 package se.lth.base.server.rest.providers;
 
-import org.eclipse.jetty.util.log.StdErrLog;
+import org.slf4j.LoggerFactory;
 import se.lth.base.server.BaseServer;
 import se.lth.base.server.database.DataAccessException;
 import se.lth.base.server.database.ErrorType;
@@ -40,7 +40,7 @@ public class JsonExceptionMapper implements ExceptionMapper<Exception> {
         jsonObject.put("message", exception.getMessage());
         jsonObject.put("status", status);
         if (errorType.getLevel() == Level.SEVERE) {
-            StdErrLog.getLogger(BaseServer.class).warn(exception.getMessage(), exception);
+            LoggerFactory.getLogger(BaseServer.class).warn(exception.getMessage(), exception);
         }
         return Response.status(status)
                 .header("Content-Type", MediaType.APPLICATION_JSON + ";charset=utf-8")

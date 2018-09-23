@@ -8,11 +8,14 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.log.StdErrLog;
+
 import org.eclipse.jetty.util.resource.Resource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.servlet.ServletContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import se.lth.base.server.database.CreateSchema;
 
 import javax.servlet.ServletException;
@@ -27,13 +30,15 @@ public class BaseServer {
 
     public static void main(String[] args) {
         String databaseDriver = Config.instance().getDatabaseDriver();
+        Logger logger = LoggerFactory.getLogger(BaseServer.class);
+        		
         if (new CreateSchema(databaseDriver).createSchemaIfNotExists()) {
-            StdErrLog.getLogger(BaseServer.class).info("Installed database to " + databaseDriver);
+        	logger.info("Installed database to " + databaseDriver);
         }
 
         Server server = new Server(Config.instance().getPort());
 
-        server.setRequestLog((request, response) -> StdErrLog.getLogger(BaseServer.class).info(
+        server.setRequestLog((request, response) -> logger.info(
                 request.getMethod() + " " + request.getOriginalURI() + " " + response.getStatus()));
 
         // Handlers take care of server request in the order given
@@ -47,7 +52,7 @@ public class BaseServer {
             server.start();
             server.join();
         } catch (Exception ex) {
-            StdErrLog.getLogger(BaseServer.class).warn(ex);
+            logger.warn(ex.getMessage(), ex);
         } finally {
             server.destroy();
         }

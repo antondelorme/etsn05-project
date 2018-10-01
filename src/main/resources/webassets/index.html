@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>CommuteCompanion</title>
-    <link rel="stylesheet" href="font-awesome/css/all.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="admin/user-admin.css">
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <title>CommuteCompanion</title>
+        <link rel="stylesheet" href="font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="admin/user-admin.css">
+        <link rel="stylesheet" href="search/search.css">
+        <link rel="stylesheet" href="/bootstrap_scss/bootstrap.scss">
+    </head>
+    <body>
 
-<nav id="main-nav" class="navbar navbar-expand navbar-dark bg-primary">
-    <span class="navbar-brand d-sm-block d-none">CommuteCompanion</span>
-    <ul class="navbar-nav mr-auto">
+        <nav id="main-nav" class="navbar navbar-expand navbar-dark bg-primary">
+            <span class="navbar-brand d-sm-block d-none">CommuteCompanion</span>
+            <ul class="navbar-nav mr-auto">
 
-        <!-- Add new links here, wherever you want them -->
-        <li class="nav-item">
-            <a class="nav-link" href="#">PlaceHolder</a>
-        </li>
-        <li class="nav-item admin-only">
-            <a class="nav-link" href="#/admin">User admin</a>
-        </li>
-        <li class="nav-item admin-only">
-            <a class="nav-link" target="_blank" href="specs.html">Unit tests</a>
-        </li>
-    </ul>
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a id="logout" class="nav-link">Sign out as</a>
-        </li>
-        <li class="nav-item">
-            <span class="navbar-text" id="username"></span>
-        </li>
-    </ul>
-</nav>
+                <!-- Add new links here, wherever you want them 
 
-<section id="main-tab" class="mt-3 container"></section>
+-->
+                <li class="nav-item admin-only">
+                    <a class="nav-link" href="#/admin">User admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/search">Search Trip</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a id="logout" class="nav-link">Sign out as</a>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text" id="username"></span>
+                </li>
+            </ul>
+        </nav>
 
-<script src="rest.js"></script>
+        <section id="main-tab" class="mt-3 container"></section>
 
-<script src="admin/user-admin.js"></script>
-<!-- Add scripts of more tabs here -->
+        <script src="rest.js"></script>
 
-<script src="index.js"></script>
-<script type="application/javascript">
-    base.mainController.initOnLoad();
+        <script src="admin/user-admin.js"></script>
+        <script src="search/search.js"></script>
+        <!-- Add scripts of more tabs here -->
+
+        <script src="index.js"></script>
+        <script type="application/javascript">
+            base.mainController.initOnLoad();
 
 
 
-</script>
+        </script>
 
-</body>
+    </body>
 </html>

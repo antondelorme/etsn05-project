@@ -1,0 +1,14 @@
+html,
+body {
+  height: 100%;
+}
+
+.test {
+    height: 100%;
+    background-color: aqua;
+}
+
+.col-card {
+    padding-left: 200px;
+    padding-right: 200px;
+}

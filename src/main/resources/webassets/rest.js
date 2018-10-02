@@ -119,6 +119,9 @@ base.rest = (function() {
                 .then(function() {
                     return total;
                 });
+        },
+        getDrives: function() {
+            return baseFetch('/rest/drive').then(response => response.json());
         }
     };
 })();

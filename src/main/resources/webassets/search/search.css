@@ -5,7 +5,7 @@ body {
 
 .test {
     height: 100%;
-    background-color: aqua;
+    background-color: #374785;
 }
 
 .col-card {
@@ -21,6 +21,7 @@ body {
 .card-pc-outer-left {
     border-style: solid;
     border-width: 0px 1px 0px 0px;
+    text-align: center;
 }
 
 .card-pc-outer-right {
@@ -30,4 +31,14 @@ body {
 
 .card-body {
     padding: 0px;!important
+}
+
+.request-btn {
+    margin-top: 75%;
+    margin-left: 18%;
+}
+
+.card-head {
+    font-weight: bold;
+    font-size: 26px;
 }

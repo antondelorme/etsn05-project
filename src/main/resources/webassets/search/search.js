@@ -9,6 +9,5 @@ base.searchController = (function() {
             document.addEventListener('DOMContentLoaded', base.searchController.load);
         }
     };
-
     return controller;
 });

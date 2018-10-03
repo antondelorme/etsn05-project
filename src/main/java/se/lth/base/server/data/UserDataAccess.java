@@ -5,6 +5,7 @@ import se.lth.base.server.database.DataAccessException;
 import se.lth.base.server.database.ErrorType;
 import se.lth.base.server.database.Mapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -41,12 +42,12 @@ public class UserDataAccess extends DataAccess<User> {
      * @param credentials of the new user, containing name, role, and password.
      * @throws DataAccessException if duplicated username or too short user names.
      */
-    public User addUser(Credentials credentials) {
+    public User addUser(Credentials credentials, String firstName, String lastName, String phoneNumber, String email, int gender, Date dateOfBirth, boolean drivingLicense) {
         long salt = Credentials.generateSalt();
-        int userId = insert("INSERT INTO user (role_id, username, password_hash, salt) VALUES ((" +
-                        "SELECT role_id FROM user_role WHERE user_role.role=?),?,?,?)",
-                credentials.getRole().name(), credentials.getUsername(), credentials.generatePasswordHash(salt), salt);
-        return new User(userId, credentials.getRole(), credentials.getUsername());
+        int userId = insert("INSERT INTO user (role_id, username, salt, password_hash, first_name, last_name, phone_number, email, gender, date_of_birth, driving_license) VALUES ((" +
+                        "SELECT role_id FROM user_role WHERE user_role.role=?),?,?,?,?,?,?,?,?,?,?)",
+                credentials.getRole().name(), credentials.getUsername(), salt, credentials.generatePasswordHash(salt),firstName, lastName, phoneNumber, email, gender, dateOfBirth, drivingLicense);
+        return new User(userId, credentials.getRole(), credentials.getUsername(), firstName, lastName, phoneNumber, email, gender, dateOfBirth, drivingLicense, 0, 0, 0);
     }
 
     public User updateUser(int userId, Credentials credentials) {
@@ -67,7 +68,7 @@ public class UserDataAccess extends DataAccess<User> {
     }
 
     public User getUser(int userId) {
-        return queryFirst("SELECT user_id, role, username FROM user, user_role " +
+        return queryFirst("SELECT user_id, role, username, first_name, last_name, phone_number, email, gender, date_of_birth, driving_license, rating_total_score, number_of_ratings, warning FROM user, user_role " +
                 "WHERE user.user_id = ? AND user.role_id = user_role.role_id", userId);
     }
 
@@ -79,7 +80,7 @@ public class UserDataAccess extends DataAccess<User> {
      * @return all users in the system.
      */
     public List<User> getUsers() {
-        return query("SELECT user_id, username, role FROM user, user_role " +
+        return query("SELECT user_id, role, username, first_name, last_name, phone_number, email, gender, date_of_birth, driving_license, rating_total_score, number_of_ratings, warning FROM user, user_role " +
                 "WHERE user.role_id = user_role.role_id");
     }
 
@@ -91,7 +92,7 @@ public class UserDataAccess extends DataAccess<User> {
      * @throws DataAccessException if the session is not found.
      */
     public Session getSession(UUID sessionId) {
-        User user = queryFirst("SELECT user.user_id, username, role FROM user, user_role, session " +
+        User user = queryFirst("SELECT user.user_id, role, username, first_name, last_name, phone_number, email, gender, date_of_birth, driving_license, rating_total_score, number_of_ratings, warning FROM user, user_role, session " +
                 "WHERE user_role.role_id = user.role_id " +
                 "    AND session.user_id = user.user_id " +
                 "    AND session.session_uuid = ?", sessionId);
@@ -123,7 +124,7 @@ public class UserDataAccess extends DataAccess<User> {
         long salt = new DataAccess<>(getDriverUrl(), (rs) -> rs.getLong(1))
                 .queryFirst("SELECT salt FROM user WHERE username = ?", credentials.getUsername());
         UUID hash = credentials.generatePasswordHash(salt);
-        User user = queryFirst("SELECT user_id, username, role FROM user, user_role " +
+        User user = queryFirst("SELECT user_id, role, username, first_name, last_name, phone_number, email, gender, date_of_birth, driving_license, rating_total_score, number_of_ratings, warning FROM user, user_role " +
                 "WHERE user_role.role_id = user.role_id " +
                 "    AND username = ? " +
                 "    AND password_hash = ?", credentials.getUsername(), hash);
@@ -136,9 +137,11 @@ public class UserDataAccess extends DataAccess<User> {
         // Feel free to change this to a lambda expression
         @Override
         public User map(ResultSet resultSet) throws SQLException {
-            return new User(resultSet.getInt("user_id"),
-                    Role.valueOf(resultSet.getString("role")),
-                    resultSet.getString("username"));
+            return new User(resultSet.getInt("user_id"), Role.valueOf(resultSet.getString("role")),
+            		resultSet.getString("username"), resultSet.getString("first_name"), resultSet.getString("last_name"),
+                    resultSet.getString("phone_number"), resultSet.getString("email"), resultSet.getInt("gender"),
+                    resultSet.getDate("date_of_birth"), resultSet.getBoolean("driving_license"),
+                    resultSet.getInt("rating_total_score"), resultSet.getInt("number_of_ratings"), resultSet.getInt("warning"));
         }
     }
 }

@@ -15,14 +15,15 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Collections;
 
 
 public class BaseResourceTest extends JerseyTest {
 
-    protected static final User ADMIN = new User(1, Role.ADMIN, "Admin");
+    protected static final User ADMIN = new User(1, Role.ADMIN, "Admin", "Admin", "-", "0", "admin@commutecompanion.se", 0, Date.valueOf("2018-01-01"), false, 0, 0, 0);
     protected static final Credentials ADMIN_CREDENTIALS = new Credentials("Admin", "password", Role.ADMIN);
-    protected static final User TEST = new User(2, Role.USER, "Test");
+    protected static final User TEST = new User(2, Role.USER, "Test", "Test", "-", "0", "test@commutecompanion.se", 0, Date.valueOf("2018-01-01"), false, 0, 0, 0);
     protected static final Credentials TEST_CREDENTIALS = new Credentials("Test", "password", Role.USER);
 
     private static final String IN_MEM_DRIVER_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";

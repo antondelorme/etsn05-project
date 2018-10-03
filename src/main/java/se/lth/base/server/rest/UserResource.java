@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -89,7 +89,9 @@ public class UserResource {
         if (!credentials.hasPassword() || !credentials.validPassword()) {
             throw new WebApplicationException("Password too short", Response.Status.BAD_REQUEST);
         }
-        return userDao.addUser(credentials);
+//		TODO: get necessary information from front-end and pass the real info to addUser.
+//        return userDao.addUser(credentials, first_name, last_name, phone, email, gender, date_of_birth, driving_license);
+        return userDao.addUser(credentials, "Foo", "Foo", "000", "foo@bar", 0, Date.valueOf("2018-01-01"), false);
     }
 
     @Path("all")

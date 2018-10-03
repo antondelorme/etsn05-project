@@ -1,0 +1,54 @@
+.top {
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.mid {
+    background-color: #F8E9A1;
+}
+
+.bot {
+    background-color: #A8D0E6; 
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.circle-grade {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: black;
+    line-height: 125px;
+    text-align: center;
+    background: #A8D0E6;
+}
+
+.car-info {
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-radius: 5px;
+}
+
+.buttons {
+    width: 15rem;
+}
+
+.request-button {
+    width: 100%;
+}
+
+.request-col-bot {
+    background-color: white;
+    margin-bottom: 20px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.request-col-top {
+    background-color: #374785;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: white;
+}

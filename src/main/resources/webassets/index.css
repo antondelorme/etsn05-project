@@ -7,3 +7,7 @@ ul.navbar-nav > li > a {
 .list-group-item-action {
     cursor: pointer;
 }
+
+p {
+    margin-bottom: 8px;
+}

@@ -10,6 +10,10 @@ base.mainController = (function() {
         'search': {
             partial: 'search/search.html',
             controller: base.searchController
+        },
+        'drive': {
+            partial: 'drive/drive.html',
+            controller: base.driveController
         }
     };
 

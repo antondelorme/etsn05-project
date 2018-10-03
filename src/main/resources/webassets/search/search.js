@@ -3,7 +3,7 @@ base.searchController = (function() {
     var controller = {
         load: function() {
             base.rest.getDrives().then(function(response) {
-                console.log(JSON.stringify(response) + "hej");
+                    console.log(JSON.stringify(response) + "hej");
             });
         },
         initOnLoad: function() {

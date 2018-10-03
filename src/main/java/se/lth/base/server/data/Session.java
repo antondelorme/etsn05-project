@@ -2,6 +2,7 @@ package se.lth.base.server.data;
 
 import javax.ws.rs.core.SecurityContext;
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -13,10 +14,12 @@ public class Session implements SecurityContext {
 
     private final UUID sessionId;
     private final User user;
-
-    public Session(UUID sessionId, User user) {
+    private final Timestamp lastSeen;
+    
+    public Session(UUID sessionId, User user, Timestamp lastSeen) {
         this.sessionId = sessionId;
         this.user = user;
+        this.lastSeen = lastSeen;
     }
 
     public User getUser() {
@@ -25,6 +28,10 @@ public class Session implements SecurityContext {
 
     public UUID getSessionId() {
         return sessionId;
+    }
+    
+    public Timestamp getLastSeen(){
+    	return lastSeen;
     }
 
     @Override

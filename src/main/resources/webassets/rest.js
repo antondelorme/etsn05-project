@@ -24,6 +24,10 @@ base.rest = (function() {
         };
     };
 
+    var DriveWrap = function(json) {
+        Object.assign(this, json);
+        this.json = json;
+    };
 
     var objOrError = function(json, cons) {
         if (json.error) {
@@ -33,6 +37,7 @@ base.rest = (function() {
         }
     };
 
+    base.DriveWrap = DriveWrap;
     base.Foo = Foo;
     base.User = User;
     base.Role = Role;
@@ -60,9 +65,9 @@ base.rest = (function() {
         login: function(username, password, rememberMe) {
             var loginObj = {username: username, password: password};
             return baseFetch('/rest/user/login?remember=' + rememberMe, {
-                    method: 'POST',
-                    body: JSON.stringify(loginObj),
-                    headers: jsonHeader});
+                method: 'POST',
+                body: JSON.stringify(loginObj),
+                headers: jsonHeader});
         },
         logout: function() {
             return baseFetch('/rest/user/logout', {method: 'POST'});
@@ -79,17 +84,17 @@ base.rest = (function() {
         },
         addUser: function(credentials) {
             return baseFetch('/rest/user', {
-                    method: 'POST',
-                    body: JSON.stringify(credentials),
-                    headers: jsonHeader})
+                method: 'POST',
+                body: JSON.stringify(credentials),
+                headers: jsonHeader})
                 .then(response => response.json())
                 .then(u => objOrError(u, User));
         },
         putUser: function(id, credentials) {
             return baseFetch('/rest/user/'+id, {
-                    method: 'PUT',
-                    body: JSON.stringify(credentials),
-                    headers: jsonHeader})
+                method: 'PUT',
+                body: JSON.stringify(credentials),
+                headers: jsonHeader})
                 .then(response => response.json())
                 .then(u => objOrError(u, User));
         },
@@ -105,9 +110,9 @@ base.rest = (function() {
         },
         addFoo: function(foo) {
             return baseFetch('/rest/foo', {
-                    method: 'POST',
-                    body: JSON.stringify(foo),
-                    headers: jsonHeader})
+                method: 'POST',
+                body: JSON.stringify(foo),
+                headers: jsonHeader})
                 .then(response => response.json())
                 .then(f => new Foo(f));
         },
@@ -117,11 +122,13 @@ base.rest = (function() {
         updateFoo: function(fooId, total) {
             return baseFetch('/rest/foo/'+fooId+'/total/'+total, {method: 'POST'})
                 .then(function() {
-                    return total;
-                });
+                return total;
+            });
         },
-        getDrives: function() {
-            return baseFetch('/rest/drive').then(response => response.json());
+        getDrive: function(driveId) {
+            return baseFetch('/rest/drive/'+driveId, {method: 'GET'})
+                .then(response => response.json())
+                .then(dw => new DriveWrap(dw));
         }
     };
 })();

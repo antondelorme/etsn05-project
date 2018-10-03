@@ -2,7 +2,9 @@ var base = base || {};
 base.driveController = (function() {
     var controller = {
         load: function() {
-           console.log('hej');
+            base.rest.getDrive(1).then(function(response) {
+                console.log(response);
+            })
         },
         initOnLoad: function() {
             document.addEventListener('DOMContentLoaded', base.driveController.load);

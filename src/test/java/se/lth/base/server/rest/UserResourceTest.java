@@ -4,6 +4,7 @@ import org.junit.Test;
 import se.lth.base.server.BaseResourceTest;
 import se.lth.base.server.data.Credentials;
 import se.lth.base.server.data.Role;
+import se.lth.base.server.data.Session;
 import se.lth.base.server.data.User;
 
 import javax.ws.rs.ForbiddenException;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -249,5 +251,25 @@ public class UserResourceTest extends BaseResourceTest {
         assertEquals(TEST.getId(), user.getId());
         assertEquals(newTest.getUsername(), user.getName());
         assertEquals(newTest.getRole(), user.getRole());
+    }
+    
+    @Test 
+    public void updateSessionLastSeen() {
+    	login(ADMIN_CREDENTIALS);
+    	Session session = target("user")
+    			.path("session")
+    			.request()
+    			.get(Session.class);
+    	UUID sessionId = session.getSessionId();
+    	target("user")
+    		.path("updateSessionLastSeen")
+    		.request()
+    		.put(Entity.json(""), Session.class);
+    	Session session2 = target("user")
+    			.path("session")
+    			.request()
+    			.get(Session.class);
+    	System.out.println("session1: " + sessionId.toString() + " - Session2: " + session2.getSessionId().toString());
+    	assertNotEquals(sessionId, session2.getSessionId());
     }
 }

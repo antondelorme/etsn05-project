@@ -61,7 +61,6 @@ public class DriveResource {
 
         // No reports yet
         List<DriveReport> reports = new ArrayList<DriveReport>();
-        
         return new DriveWrap(drive, milestones, users, reports);
     }
     

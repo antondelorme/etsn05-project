@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -89,7 +89,9 @@ public class UserResource {
         if (!credentials.hasPassword() || !credentials.validPassword()) {
             throw new WebApplicationException("Password too short", Response.Status.BAD_REQUEST);
         }
-        return userDao.addUser(credentials);
+//		TODO: get necessary information from front-end and pass the real info to addUser.
+//        return userDao.addUser(credentials, first_name, last_name, phone, email, gender, date_of_birth, driving_license);
+        return userDao.addUser(credentials, "Foo", "Foo", "000", "foo@bar", 0, Date.valueOf("2018-01-01"), false);
     }
 
     @Path("all")
@@ -124,14 +126,15 @@ public class UserResource {
     }
 
     @Path("{id}")
-    @RolesAllowed(Role.Names.ADMIN)
+    @RolesAllowed(Role.Names.USER)
     @DELETE
     public void deleteUser(@PathParam("id") int userId) {
-        if (userId == currentUser().getId()) {
-            throw new WebApplicationException("Don't delete yourself", Response.Status.BAD_REQUEST);
-        }
-        if (!userDao.deleteUser(userId)) {
-            throw new WebApplicationException("User not found", Response.Status.NOT_FOUND);
+        if (userId == currentUser().getId() || currentUser().getRole().getLevel() > userDao.getUser(userId).getRole().getLevel()) {
+            if (!userDao.deleteUser(userId)) {
+                throw new WebApplicationException("Could not delete user", Response.Status.NOT_FOUND);
+            }
+        } else {
+            throw new WebApplicationException("You are not permitted to delete this user", Response.Status.FORBIDDEN);
         }
     }
 }

@@ -47,7 +47,7 @@ public class DriveResource {
     	List<DriveMilestone> milestones = driveWrap.getMilestones();
     	
     	// Add drive
-        drive = driveDao.addDrive(user.getId(), drive.getStart(), drive.getStop(), drive.getDateTime(), drive.getComment(), drive.getCarBrand(), drive.getCarModel(), drive.getCarYear(), drive.getCarColor(), drive.getCarLicensePlate(), drive.getCarNumberOfSeats(), drive.getOptLuggage(), drive.getOptWinterTires(), drive.getOptPets(), drive.getOptBicycle(), drive.getOptSkis());
+        drive = driveDao.addDrive(drive.getStart(), drive.getStop(), drive.getDepartureTime(), drive.getComment(), drive.getCarBrand(), drive.getCarModel(), drive.getCarColor(), drive.getCarLicensePlate(), drive.getCarNumberOfSeats(), drive.getOptLuggageSize(), drive.getOptWinterTires(), drive.getOptBicycle(), drive.getOptPets());
         
         List<DriveMilestone> returningMilestones = new ArrayList<DriveMilestone>();
         
@@ -71,7 +71,7 @@ public class DriveResource {
     @RolesAllowed(Role.Names.USER)
     public Drive putDrive(@PathParam("{driveId}") int driveId, Drive drive) throws URISyntaxException {
     	if (driveUserDao.getDriveUser(driveId, user.getId()).isDriver())
-    		return driveDao.updateDrive(driveId,  drive.getStart(), drive.getStop(), drive.getDateTime(), drive.getComment(), drive.getCarBrand(), drive.getCarModel(), drive.getCarYear(), drive.getCarColor(), drive.getCarLicensePlate(), drive.getCarNumberOfSeats(), drive.getOptLuggage(), drive.getOptWinterTires(), drive.getOptPets(), drive.getOptBicycle(), drive.getOptSkis());
+    		return driveDao.updateDrive(driveId, drive.getStart(), drive.getStop(), drive.getDepartureTime(), drive.getComment(), drive.getCarBrand(), drive.getCarModel(), drive.getCarColor(), drive.getCarLicensePlate(), drive.getCarNumberOfSeats(), drive.getOptLuggageSize(), drive.getOptWinterTires(), drive.getOptBicycle(), drive.getOptPets());
     	
     	throw new WebApplicationException("Only driver allowed to update drive", Status.UNAUTHORIZED);
     }
@@ -132,19 +132,7 @@ public class DriveResource {
     	throw new WebApplicationException("Only driver allowed to remove passengers", Status.UNAUTHORIZED);
     }
     
-    @Path("{driveId}/complete")
-    @PUT
-    @RolesAllowed(Role.Names.USER)
-    public Drive completeDrive(@PathParam("{driveId}") int driveId) {
-    	if (driveUserDao.getDriveUser(driveId, user.getId()).isDriver()) {
-    		driveDao.completeDrive(driveId);
-    		return driveDao.getDrive(driveId);
-    	}
-    	
-    	throw new WebApplicationException("Only driver allowed to accept passengers", Status.UNAUTHORIZED);
-    }
-    
-    @Path("{driveId}/rate")
+    @Path("{driveId/rate")
     @POST
     @RolesAllowed(Role.Names.USER)
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")

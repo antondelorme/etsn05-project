@@ -1,5 +1,7 @@
 package se.lth.base.server.data;
 
+import java.sql.Timestamp;
+
 /**
  * Data class for a drive
  *
@@ -7,63 +9,32 @@ package se.lth.base.server.data;
  * @see DriveDataAccess
  */
 public class Drive {
-    private final int driveId,
-    	userId,
-    	carYear,
-    	carNumberOfSeats;
-    private final String start,
-    	stop,
-    	comment,
-    	carBrand,
-    	carModel,
-    	carColor,
-    	carLicensePlate; 
-    private final boolean optLuggage, 
-    	optWinterTires, 
-    	optPets, 
-    	optBicycle, 
-    	optSkis,
-    	completed;
-    private final long dateTime, created;
-
-    public Drive(int driveId, int userId, String start, String stop, long dateTime, String comment, 
-    		String carBrand, String carModel, int carYear, String carColor, String carLicensePlate, int carNumberOfSeats,
-    		boolean optLuggage, boolean optWinterTires, boolean optPets, boolean optBicycle, boolean optSkis, long created, boolean completed) {
-    	this.driveId = driveId;
-    	this.userId = userId;
-    	this.start = start;
-    	this.stop = stop;
-    	this.dateTime = dateTime;
-    	this.comment = comment;
-    	this.carBrand = carBrand;
-    	this.carModel = carModel;
-    	this.carYear = carYear;
-    	this.carColor = carColor;
-    	this.carLicensePlate = carLicensePlate;
-    	this.carNumberOfSeats = carNumberOfSeats;
-    	this.optLuggage = optLuggage;
-    	this.optWinterTires = optWinterTires;
-    	this.optPets = optPets;
-    	this.optBicycle = optBicycle;
-    	this.optSkis = optSkis;
-    	this.created = created;
-    	this.completed = completed;
-    }
+    private final int driveId, carNumberOfSeats, optLuggageSize;
+    private final String start, stop, comment, carBrand, carModel, carColor, carLicensePlate; 
+    private final boolean optWinterTires, optPets, optBicycle;
+    private final Timestamp departureTime;
+    
+	public Drive(int driveId, String start, String stop, Timestamp departureTime, String comment, String carBrand,
+			String carModel, String carColor, String carLicensePlate, int carNumberOfSeats, int optLuggageSize,
+			boolean optWinterTires, boolean optBicycle, boolean optPets) {
+		this.driveId = driveId;
+		this.start = start;
+		this.stop = stop;
+		this.departureTime = departureTime;
+		this.comment = comment;
+		this.carBrand = carBrand;
+		this.carModel = carModel;
+		this.carColor = carColor;
+		this.carLicensePlate = carLicensePlate;
+		this.carNumberOfSeats = carNumberOfSeats;
+		this.optLuggageSize = optLuggageSize;
+		this.optWinterTires = optWinterTires;
+		this.optBicycle = optBicycle;
+		this.optPets = optPets;
+	}
 
 	public int getDriveId() {
 		return driveId;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public int getCarYear() {
-		return carYear;
-	}
-
-	public int getCarNumberOfSeats() {
-		return carNumberOfSeats;
 	}
 
 	public String getStart() {
@@ -73,6 +44,10 @@ public class Drive {
 	public String getStop() {
 		return stop;
 	}
+	
+	public Timestamp getDepartureTime() {
+		return departureTime;
+	}	
 
 	public String getComment() {
 		return comment;
@@ -90,40 +65,28 @@ public class Drive {
 		return carColor;
 	}
 
-	public boolean getOptLuggage() {
-		return optLuggage;
-	}
-
 	public String getCarLicensePlate() {
 		return carLicensePlate;
+	}
+	
+	public int getCarNumberOfSeats() {
+		return carNumberOfSeats;
+	}
+	
+	public int getOptLuggageSize() {
+		return optLuggageSize;
 	}
 
 	public boolean getOptWinterTires() {
 		return optWinterTires;
 	}
-
-	public boolean getOptPets() {
-		return optPets;
-	}
-
+	
 	public boolean getOptBicycle() {
 		return optBicycle;
 	}
 
-	public boolean getOptSkis() {
-		return optSkis;
-	}
-	
-	public boolean getCompleted() {
-		return completed;
-	}
-
-	public long getDateTime() {
-		return dateTime;
-	}
-
-	public long getCreated() {
-		return created;
+	public boolean getOptPets() {
+		return optPets;
 	}
 }
 

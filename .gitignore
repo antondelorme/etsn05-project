@@ -2,6 +2,14 @@
 # Project specific excludes
 #
 
+# Visual Studio Code specific from: https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+
 # Eclipse specific from: https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore
 .metadata
 bin/

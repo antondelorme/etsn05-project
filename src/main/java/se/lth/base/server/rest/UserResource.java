@@ -124,14 +124,15 @@ public class UserResource {
     }
 
     @Path("{id}")
-    @RolesAllowed(Role.Names.ADMIN)
+    @RolesAllowed(Role.Names.USER)
     @DELETE
     public void deleteUser(@PathParam("id") int userId) {
-        if (userId == currentUser().getId()) {
-            throw new WebApplicationException("Don't delete yourself", Response.Status.BAD_REQUEST);
-        }
-        if (!userDao.deleteUser(userId)) {
-            throw new WebApplicationException("User not found", Response.Status.NOT_FOUND);
+        if (userId == currentUser().getId() || currentUser().getRole().getLevel() > userDao.getUser(userId).getRole().getLevel()) {
+            if (!userDao.deleteUser(userId)) {
+                throw new WebApplicationException("Could not delete user", Response.Status.NOT_FOUND);
+            }
+        } else {
+            throw new WebApplicationException("You are not permitted to delete this user", Response.Status.FORBIDDEN);
         }
     }
     

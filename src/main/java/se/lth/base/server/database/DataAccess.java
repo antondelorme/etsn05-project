@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,6 +36,17 @@ public class DataAccess<T> {
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(driverUrl, "sa", "");
+    }
+    
+    public int updateSessionLastSeen(UUID session_id) {
+    	String sql = "UPDATE session SET last_seen = CURRENT_TIMESTAMP() WHERE session_uuid = ?";
+    	try (Connection conn = getConnection();
+    			PreparedStatement statement = conn.prepareStatement(sql);) {
+    			statement.setObject(1, session_id);
+    			return statement.executeUpdate();
+           } catch (SQLException e) {
+               throw toException(e, e.getErrorCode());
+           }
     }
 
     public int execute(String sql, Object... objects) {

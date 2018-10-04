@@ -4,6 +4,7 @@ import org.junit.Test;
 import se.lth.base.server.BaseResourceTest;
 import se.lth.base.server.data.Credentials;
 import se.lth.base.server.data.Role;
+import se.lth.base.server.data.Session;
 import se.lth.base.server.data.User;
 
 import javax.ws.rs.ForbiddenException;
@@ -13,8 +14,11 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -129,42 +133,12 @@ public class UserResourceTest extends BaseResourceTest {
     }
 
     @Test(expected = ForbiddenException.class)
-    public void deleteAdminAsUser() {
+    public void deleteUserAsUser() {
         login(TEST_CREDENTIALS);
         target("user")
                 .path(Integer.toString(ADMIN.getId()))
                 .request()
                 .delete(Void.class); // Include response type to trigger exception
-    }
-
-    @Test(expected = ForbiddenException.class)
-    public void deleteUserAsUser() {
-        login(ADMIN_CREDENTIALS);
-        Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER);
-        User newUser = target("user")
-                .request()
-                .post(Entity.json(newCredentials), User.class);
-        logout();
-        login(TEST_CREDENTIALS);
-        target("user")
-                .path(Integer.toString(newUser.getId()))
-                .request()
-                .delete(Void.class); // Include response type to trigger exception
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void deleteYourself() {
-        login(TEST_CREDENTIALS);
-        target("user")
-                .path(Integer.toString(TEST.getId()))
-                .request()
-                .delete(Void.class);
-        logout();
-        login(ADMIN_CREDENTIALS);
-        target("user")
-                .path(Integer.toString(TEST.getId()))
-                .request()
-                .get(User.class);
     }
 
     @Test
@@ -218,7 +192,6 @@ public class UserResourceTest extends BaseResourceTest {
         assertEquals(TEST.getRole(), responseTest.getRole());
     }
 
-
     @Test(expected = NotFoundException.class)
     public void deleteTestUser() {
         login(ADMIN_CREDENTIALS);
@@ -271,5 +244,28 @@ public class UserResourceTest extends BaseResourceTest {
         assertEquals(TEST.getId(), user.getId());
         assertEquals(newTest.getUsername(), user.getName());
         assertEquals(newTest.getRole(), user.getRole());
+    }
+    
+    @Test 
+    public void updateSessionLastSeen() {
+    	login(ADMIN_CREDENTIALS);
+    	Session session = target("user")
+    			.path("session")
+    			.request()
+    			.get(Session.class);
+    	Timestamp lastSeen = session.getLastSeen();
+    	target("user")
+    		.path("updateSessionLastSeen")
+    		.request()
+    		.put(Entity.json(""), Session.class);
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {}
+    	Session session2 = target("user")
+    			.path("session")
+    			.request()
+    			.get(Session.class);
+    	System.out.println("session1: " + lastSeen.toString() + " - Session2: " + session2.getLastSeen().toString());
+    	assertNotEquals(lastSeen, session2.getLastSeen());
     }
 }

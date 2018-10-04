@@ -8,6 +8,7 @@ import se.lth.base.server.database.Mapper;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -96,9 +97,10 @@ public class UserDataAccess extends DataAccess<User> {
                 "WHERE user_role.role_id = user.role_id " +
                 "    AND session.user_id = user.user_id " +
                 "    AND session.session_uuid = ?", sessionId);
-        execute("UPDATE session SET last_seen = CURRENT_TIMESTAMP() " +
-                "WHERE session_uuid = ?", sessionId);
-        return new Session(sessionId, user);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        execute("UPDATE session SET last_seen = ? " +
+                "WHERE session_uuid = ?", currentTime, sessionId);
+        return new Session(sessionId, user, currentTime);
     }
 
     /**
@@ -130,7 +132,7 @@ public class UserDataAccess extends DataAccess<User> {
                 "    AND password_hash = ?", credentials.getUsername(), hash);
         UUID sessionId = insert("INSERT INTO session (user_id) " +
                 "SELECT user_id from USER WHERE username = ?", user.getName());
-        return new Session(sessionId, user);
+        return new Session(sessionId, user, new Timestamp(System.currentTimeMillis()));
     }
 
     private static class UserMapper implements Mapper<User> {

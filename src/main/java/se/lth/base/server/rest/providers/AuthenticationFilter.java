@@ -15,6 +15,7 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -33,7 +34,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         Cookie cookie = requestContext.getCookies().get("USER_TOKEN");
-        Session session = new Session(null, User.NONE);
+        Session session = new Session(null, User.NONE, new Timestamp(System.currentTimeMillis()));
         if (cookie != null) {
             UUID uuid = UUID.fromString(cookie.getValue());
             try {

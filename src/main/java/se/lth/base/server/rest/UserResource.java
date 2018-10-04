@@ -137,4 +137,19 @@ public class UserResource {
             throw new WebApplicationException("You are not permitted to delete this user", Response.Status.FORBIDDEN);
         }
     }
+    
+    @Path("updateSessionLastSeen")
+    @PUT
+    @PermitAll
+    public void updateSessionLastSeen() {
+    	userDao.updateSessionLastSeen(session.getSessionId());
+    }
+    
+    @Path("session")
+    @GET
+    @PermitAll
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Session getSession() {
+        return userDao.getSession(session.getSessionId());
+    }
 }

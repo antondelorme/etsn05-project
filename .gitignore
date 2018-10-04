@@ -2,12 +2,9 @@
 # Project specific excludes
 #
 
-# Visual Studio Code specific from: https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
+# Visual Studio Code specific
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+src/.vscode/*
 
 
 # Eclipse specific from: https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore

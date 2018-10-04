@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.SQLException;
 
 
 public class BaseServer {
@@ -31,6 +32,13 @@ public class BaseServer {
     public static void main(String[] args) {
         String databaseDriver = Config.instance().getDatabaseDriver();
         Logger logger = LoggerFactory.getLogger(BaseServer.class);
+
+        // Start up TCP server before making connection
+        try {
+            org.h2.tools.Server.createTcpServer().start();
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
         		
         if (new CreateSchema(databaseDriver).createSchemaIfNotExists()) {
         	logger.info("Installed database to " + databaseDriver);

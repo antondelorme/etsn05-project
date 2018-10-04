@@ -132,7 +132,7 @@ public class DriveResource {
     	throw new WebApplicationException("Only driver allowed to remove passengers", Status.UNAUTHORIZED);
     }
     
-    @Path("{driveId/rate")
+    @Path("{driveId}/rate")
     @POST
     @RolesAllowed(Role.Names.USER)
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")

@@ -2,7 +2,7 @@ var base = base || {};
 base.driveController = (function() {
     var controller = {
         load: function() {
-            base.rest.getDrive(1).then(function(response) {
+            base.rest.getDrive().then(function(response) {
                 console.log(response);
             })
         },

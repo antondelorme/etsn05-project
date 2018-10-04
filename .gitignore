@@ -2,7 +2,7 @@
 # Project specific excludes
 #
 
-# Visual Studio Code specific from: https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
+# Visual Studio Code specific
 .vscode/*
 src/.vscode/*
 

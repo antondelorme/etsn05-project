@@ -2,7 +2,12 @@ var base = base || {};
 base.driveController = (function() {
     var controller = {
         load: function() {
-            base.rest.getDrive().then(function(response) {
+            
+            base.Drive = 
+            base.rest.putDrive(id, drive).then(function(response) {
+                console.log("Driver added");
+            }),
+                base.rest.getDrive().then(function(response) {
                 console.log(response);
             })
         },

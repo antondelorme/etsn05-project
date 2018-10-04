@@ -129,6 +129,14 @@ base.rest = (function() {
             return baseFetch('/rest/drive/'+driveId, {method: 'GET'})
                 .then(response => response.json())
                 .then(dw => new DriveWrap(dw));
+        },
+        putDrive: function(driveWrap) {
+            return baseFetch('/rest/drive, {
+                method: 'POST', 
+                body: JSON.stringify(credentials),
+                headers: jsonHeader})
+                .then(response => response.json())
+                .then(dw => new DriveWrap(dw));
         }
     };
 })();

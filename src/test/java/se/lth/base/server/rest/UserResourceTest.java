@@ -120,12 +120,21 @@ public class UserResourceTest extends BaseResourceTest {
                 .get(User.class);
     }
 
-    @Test(expected = ForbiddenException.class)
-    public void createUserAsUser() {
+    @Test
+    public void testCreateUserAsUser() {
         login(TEST_CREDENTIALS);
-        target("user")
+        Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER);
+        User newUser = target("user")
                 .request()
-                .post(Entity.json(""), Void.class); // Include response type to trigger exception
+                .post(Entity.json(newCredentials), User.class);
+        assertEquals(newCredentials.getUsername(), newUser.getName());
+        assertEquals(newCredentials.getRole(), newUser.getRole());
+        assertTrue(newUser.getId() > 0);
+
+        // Test if we can login as new user
+        login(newCredentials);
+        User currentUser = target("user").request().get(User.class);
+        assertEquals(newUser.getId(), currentUser.getId());
     }
 
     @Test(expected = ForbiddenException.class)
@@ -190,7 +199,7 @@ public class UserResourceTest extends BaseResourceTest {
     }
 
     @Test
-    public void testAddUser() {
+    public void testCreateUserAsAdmin() {
         login(ADMIN_CREDENTIALS);
         Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER);
         User newUser = target("user")

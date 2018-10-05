@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>CommuteCompanion - Registration</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body class="text-center">
+    <form class="form-register" id="register-form">
+        <div class="col-md-12">
+            <img src="/logo.svg" alt="" width="160" height="100">
+            <h1>Welcome to Commute Companion!</h1>
+            <p>Commute Companion is a world leading rideshare network. Join our future!</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="col-form-label" for="register-username">Username</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="register-username" placeholder="Enter username" required
+                                pattern=".{4,}">
+                    <small id="register-username-help" class="form-text text-muted">Minimum 4 characters.</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="col-form-label" for="register-password">Password</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="password" class="form-control" id="register-password" placeholder="Password"
+                           required pattern=".{8,}">
+                    <small id="edit-password-help" class="form-text text-muted">Minimum 8 characters.</small>
+                </div>
+            </div>
+            <p>And everything else that needs to be added.......</p>
+            <button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            <a href="/login/login.html" class="btn btn-lg btn-primary btn-block" role="button">Go back</a>
+        </div>
+    </form>    
+    <script src="/rest.js"></script>
+    <script src="register.js"></script>
+    <script type="application/javascript">
+        base.registerController.initOnLoad();
+    </script>
+</body> 
+</html>

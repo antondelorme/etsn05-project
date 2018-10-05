@@ -22,9 +22,11 @@ public class CreateSchema {
     }
 
     public static void main(String[] args) throws Exception {
+        org.h2.tools.Server server = org.h2.tools.Server.createTcpServer().start();
         CreateSchema cs = new CreateSchema(Config.instance().getDatabaseDriver());
         cs.dropAll();
         cs.createSchema();
+        server.stop();
     }
 
     private static void runScript(Connection conn) throws SQLException {

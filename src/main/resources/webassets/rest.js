@@ -98,8 +98,8 @@ base.rest = (function() {
                 .then(response => response.json())
                 .then(u => objOrError(u, User));
         },
-        deleteUser: function(username) {
-            return baseFetch('/rest/user/'+username, {method: 'DELETE'});
+        deleteUser: function (id) {
+            return baseFetch('/rest/user/' + id, {method: 'DELETE'});
         },
         getFoos: function(userId) {
             var postfix = "";

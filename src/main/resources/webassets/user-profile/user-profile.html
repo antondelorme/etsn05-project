@@ -1,0 +1,44 @@
+<h1>Account settings</h1>
+<div class="row">
+    <form id="user-form" class="col-md-7">
+        <div id="user-settings" class="form-group">
+            <div class="row">
+                <label for="set-username" class="col-md-4">Username</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="set-username"  required
+                    pattern=".{4,}">
+                    <small id="edit-username-help" class="form-text text-muted">Minimum 4 characters.</small>
+                </div>
+           </div>
+           <div class="row">
+               <label for="set-password" class="col-md-4">New password</label>
+               <div class="col-md-8">
+                    <input type="password" class="form-control" id="set-password" 
+                            pattern=".{8,}">
+                    <small id="edit-password-help" class="form-text text-muted">Minimum 8 characters.</small>
+                </div>
+           </div>
+           <div class="row">
+                <label for="set-password-repeat" class="col-md-4">Confirm new password</label>
+                <div class="col-md-8">
+                    <input type="password" class="form-control" id="set-password-confirm" 
+                       pattern=".{8,}">        
+                </div>       
+            </div>
+            <p>Continue to add rows when added to database.</p>
+            <div class="row">
+                <div class="col-6">
+                    <button id="submit-user" type="submit" class="w-100 btn btn-primary">Submit</button>
+                </div>
+                <div class="col-6">
+                    <button id="clear-changes" type="reset" class="w-100 btn btn-secondary">Clear changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="user-settings-information" class="col-md-5">
+        <p>Diverse härlig info om vårt superfantastiska värdsförändrande projekt commute companion. Lorem ipsum osv.</p>
+        <p>Kontakta oss på commutecompanion@gmail.com. Woop</p>
+        <button id="delete-account" type="button" class="w-100 btn btn-danger">Delete account</button>
+    </div>
+</div>

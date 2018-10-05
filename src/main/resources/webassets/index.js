@@ -3,6 +3,10 @@ base.mainController = (function() {
 
     var routingTable = {
         // first in table is the default
+        'user-profile': {
+            partial: 'user-profile/user-profile.html',
+            controller: base.userProfileController
+        },
         'admin': {
             partial: 'admin/user-admin.html',
             controller: base.userAdminController

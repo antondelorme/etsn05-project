@@ -60,10 +60,10 @@ base.userAdminController = function() {
                 .forEach(activeEl => activeEl.classList.remove('active'));
             clickedEl.classList.add('active');
 
-            document.getElementById('user-data').querySelector('a').href = '/rest/foo/user/'+user.id;
+            document.getElementById('user-data').querySelector('a').href = '/rest/foo/user/' + user.userId;
 
             // Set defaults of form values. This will allow the HTML reset button to work by default HTML behaviour.
-            document.getElementById('user-id').defaultValue = user.id;
+            document.getElementById('user-id').defaultValue = user.userId;
             document.getElementById('set-username').defaultValue = user.username;
             document.getElementById('set-password').defaultValue = '';
             var roleIx = model.roleNames.indexOf(user.role.name);
@@ -85,7 +85,7 @@ base.userAdminController = function() {
             if (password === '') {
                 delete credentials.password;
             }
-            if (id !== '') {
+            if (id !== 'undefined' && id !== '') {
                 base.rest.putUser(id, credentials).then(function(user) {
                     if (user.error) {
                         alert(user.message);
@@ -113,7 +113,7 @@ base.userAdminController = function() {
         },
         deleteUser: function() {
             var userId = document.getElementById('user-id').value;
-            var ix = model.users.map(user => user.id).indexOf(parseInt(userId));
+            var ix = model.users.map(user => user.userId).indexOf(parseInt(userId));
             var user = model.users[ix];
             base.rest.deleteUser(userId).then(function() {
                 view.removeUser(user, ix);

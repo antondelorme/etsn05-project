@@ -4,9 +4,9 @@
  */
 describe('user specs', function() {
 
-    var none = new base.User({username: '-', role: 'NONE', id: 0});
-    var admin = new base.User({username: 'Admin', role: 'ADMIN', id: 1});
-    var test = new base.User({username: 'Test', role: 'USER', id: 2});
+    var none = new base.User({username: '-', role: 'NONE', userId: 0});
+    var admin = new base.User({username: 'Admin', role: 'ADMIN', userId: 1});
+    var test = new base.User({username: 'Test', role: 'USER', userId: 2});
 
     describe('User class', function() {
         it('isAdmin should return true for ADMIN', function() {
@@ -77,7 +77,7 @@ describe('user specs', function() {
 
         describe('add user', function() {
             var credentials = {username: 'new user', password: 'qwerty123', role: roles[1].name};
-            var newUser = new base.User({username: credentials.username, role: credentials.role, id: 3});
+            var newUser = new base.User({username: credentials.username, role: credentials.role, userId: 3});
             var userPromise = Promise.resolve(newUser);
 
             beforeEach(function(){
@@ -146,12 +146,13 @@ describe('user specs', function() {
                 var userPromise = Promise.resolve(new base.User({
                         username: userCredentials.username,
                         role: userCredentials.role,
-                        id: startUsers[0].id}));
+                    userId: startUsers[0].userId
+                }));
                 spyOn(base.rest, 'putUser').and.returnValue(userPromise);
                 document.getElementById('set-username').value = userCredentials.username;
                 document.getElementById('submit-user').click();
                 userPromise.then(function() {
-                    expect(base.rest.putUser).toHaveBeenCalledWith(''+startUsers[0].id, userCredentials);
+                    expect(base.rest.putUser).toHaveBeenCalledWith('' + startUsers[0].userId, userCredentials);
                 }).finally(done);
             });
 
@@ -160,14 +161,15 @@ describe('user specs', function() {
                 var userPromise = Promise.resolve(new base.User({
                         username: userCredentials.username,
                         role: userCredentials.role,
-                        id: startUsers[0].id}));
+                    userId: startUsers[0].userId
+                }));
                 spyOn(base.rest, 'putUser').and.returnValue(userPromise);
                 document.getElementById('set-username').value = userCredentials.username;
                 document.getElementById('set-password').disabled = false;
                 document.getElementById('set-password').value = userCredentials.password;
                 document.getElementById('submit-user').click();
                 userPromise.then(function() {
-                    expect(base.rest.putUser).toHaveBeenCalledWith(''+startUsers[0].id, userCredentials);
+                    expect(base.rest.putUser).toHaveBeenCalledWith('' + startUsers[0].userId, userCredentials);
                 }).finally(done);
             });
 
@@ -176,7 +178,8 @@ describe('user specs', function() {
                 var userPromise = Promise.resolve(new base.User({
                         username: userCredentials.username,
                         role: userCredentials.role,
-                        id: startUsers[0].id}));
+                    userId: startUsers[0].userId
+                }));
                 spyOn(base.rest, 'putUser').and.returnValue(userPromise);
                 document.getElementById('set-username').value = userCredentials.username;
                 document.getElementById('set-password').disabled = false;

@@ -53,7 +53,7 @@ public class DriveResource {
         
         // Add all milestones
         for (DriveMilestone m : milestones)
-        	returningMilestones.add(driveMilestoneDao.addMilestone(drive.getDriveId(), m.getMilestone()));
+        	returningMilestones.add(driveMilestoneDao.addMilestone(drive.getDriveId(), m.getMilestone(), m.getDepartureTime()));
         
         // Add driver to list of users
         List<DriveUser> users = new ArrayList<DriveUser>();

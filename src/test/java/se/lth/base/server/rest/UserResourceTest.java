@@ -120,12 +120,20 @@ public class UserResourceTest extends BaseResourceTest {
                 .get(User.class);
     }
 
-    @Test(expected = ForbiddenException.class)
-    public void createUserAsUser() {
-        login(TEST_CREDENTIALS);
-        target("user")
+    @Test
+    public void testCreateUser() {
+        Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER, TEST);
+        User newUser = target("user")
                 .request()
-                .post(Entity.json(""), Void.class); // Include response type to trigger exception
+                .post(Entity.json(newCredentials), User.class);
+        assertEquals(newCredentials.getUsername(), newUser.getName());
+        assertEquals(newCredentials.getRole(), newUser.getRole());
+        assertTrue(newUser.getId() > 0);
+
+        // Test if we can login as new user
+        login(newCredentials);
+        User currentUser = target("user").request().get(User.class);
+        assertEquals(newUser.getId(), currentUser.getId());
     }
 
     @Test(expected = ForbiddenException.class)
@@ -140,7 +148,7 @@ public class UserResourceTest extends BaseResourceTest {
     @Test(expected = ForbiddenException.class)
     public void deleteUserAsUser() {
         login(ADMIN_CREDENTIALS);
-        Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER);
+        Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER, TEST);
         User newUser = target("user")
                 .request()
                 .post(Entity.json(newCredentials), User.class);
@@ -190,23 +198,6 @@ public class UserResourceTest extends BaseResourceTest {
     }
 
     @Test
-    public void testAddUser() {
-        login(ADMIN_CREDENTIALS);
-        Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER);
-        User newUser = target("user")
-                .request()
-                .post(Entity.json(newCredentials), User.class);
-        assertEquals(newCredentials.getUsername(), newUser.getName());
-        assertEquals(newCredentials.getRole(), newUser.getRole());
-        assertTrue(newUser.getId() > 0);
-
-        // Test if we can login as new user
-        login(newCredentials);
-        User currentUser = target("user").request().get(User.class);
-        assertEquals(newUser.getId(), currentUser.getId());
-    }
-
-    @Test
     public void getUser() {
         login(ADMIN_CREDENTIALS);
         User responseTest = target("user")
@@ -253,7 +244,7 @@ public class UserResourceTest extends BaseResourceTest {
     @Test(expected = WebApplicationException.class)
     public void dontDemoteYourself() {
         login(ADMIN_CREDENTIALS);
-        Credentials update = new Credentials("admin", "password", Role.USER);
+        Credentials update = new Credentials("admin", "password", Role.USER, ADMIN);
         target("user")
                 .path(Integer.toString(ADMIN.getId()))
                 .request()
@@ -263,7 +254,7 @@ public class UserResourceTest extends BaseResourceTest {
     @Test
     public void updateUser() {
         login(ADMIN_CREDENTIALS);
-        Credentials newTest = new Credentials("test2", null, Role.ADMIN);
+        Credentials newTest = new Credentials("test2", null, Role.ADMIN, TEST);
         User user = target("user")
                 .path(Integer.toString(TEST.getId()))
                 .request()

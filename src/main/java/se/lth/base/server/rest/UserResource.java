@@ -84,14 +84,15 @@ public class UserResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @RolesAllowed(Role.Names.ADMIN)
+    @PermitAll
     public User createUser(Credentials credentials) {
-        if (!credentials.hasPassword() || !credentials.validPassword()) {
-            throw new WebApplicationException("Password too short", Response.Status.BAD_REQUEST);
+        if (credentials == null || credentials.getUser() == null) {
+            throw new WebApplicationException("No user data", Response.Status.BAD_REQUEST);
         }
-//		TODO: get necessary information from front-end and pass the real info to addUser.
-//        return userDao.addUser(credentials, first_name, last_name, phone, email, gender, date_of_birth, driving_license);
-        return userDao.addUser(credentials, "Foo", "Foo", "000", "foo@bar", 0, Date.valueOf("2018-01-01"), false);
+
+        credentials.sanitizeAndValidate();
+
+        return userDao.addUser(credentials);
     }
 
     @Path("all")
@@ -102,34 +103,47 @@ public class UserResource {
         return userDao.getUsers();
     }
 
-    @Path("{id}")
+    @Path("{userId}")
     @GET
     @RolesAllowed(Role.Names.ADMIN)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public User getUser(@PathParam("id") int userId) {
+    public User getUser(@PathParam("userId") int userId) {
         return userDao.getUser(userId);
     }
 
-    @Path("{id}")
-    @RolesAllowed(Role.Names.ADMIN)
+    @Path("{userId}")
+    @RolesAllowed(Role.Names.USER)
     @PUT
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public User putUser(@PathParam("id") int userId, Credentials credentials) {
-        if (credentials.hasPassword() && !credentials.validPassword()) {
-            throw new WebApplicationException("Password too short", Response.Status.BAD_REQUEST);
+    public User putUser(@PathParam("userId") int userId, Credentials credentials) {
+        if (credentials == null || credentials.getUser() == null) {
+            throw new WebApplicationException("No user data", Response.Status.BAD_REQUEST);
         }
-        if (userId == user.getId() && user.getRole().getLevel() > credentials.getRole().getLevel()) {
-            throw new WebApplicationException("Cant't demote yourself", Response.Status.BAD_REQUEST);
+
+        // Only allowed to update yourself if you're not an admin
+        if (userId != user.getId() && !user.getRole().clearanceFor(Role.ADMIN)) {
+            throw new WebApplicationException("Operation not allowed", Response.Status.UNAUTHORIZED);
         }
+
+        // You can only update your own profile if you're not an admin and you're not changing
+        // your privilege
+        if (userId == user.getId() && (user.getRole().clearanceFor(Role.ADMIN) ||
+                user.getRole().getLevel() != credentials.getRole().getLevel())) {
+            throw new WebApplicationException("Operation not allowed", Response.Status.UNAUTHORIZED);
+        }
+
+        // Sanitize and validate input
+        credentials.sanitizeAndValidate(credentials.hasPassword());
+
         return userDao.updateUser(userId, credentials);
     }
 
-    @Path("{id}")
+    @Path("{userId}")
     @RolesAllowed(Role.Names.USER)
     @DELETE
-    public void deleteUser(@PathParam("id") int userId) {
-        if (userId == currentUser().getId() || currentUser().getRole().getLevel() > userDao.getUser(userId).getRole().getLevel()) {
+    public void deleteUser(@PathParam("userId") int userId) {
+        if (userId == user.getId() || user.getRole().getLevel() > userDao.getUser(userId).getRole().getLevel()) {
             if (!userDao.deleteUser(userId)) {
                 throw new WebApplicationException("Could not delete user", Response.Status.NOT_FOUND);
             }

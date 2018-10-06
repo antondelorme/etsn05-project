@@ -10,9 +10,9 @@ public class User implements Principal {
     private final int userId;
     private final Role role;
     private final String username;
-    private final String firstName;
-    private final String lastName;
-    private final String phoneNumber;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
     private final String email;
     private final int gender;
     private final Date dateOfBirth;
@@ -56,13 +56,25 @@ public class User implements Principal {
 		return firstName;
 	}
 
+	public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
 	public String getLastName() {
 		return lastName;
 	}
 
+	public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
 	public String getEmail() {
 		return email;

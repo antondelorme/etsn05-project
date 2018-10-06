@@ -131,7 +131,7 @@ base.rest = (function() {
                 .then(dw => new DriveWrap(dw));
         },
         putDrive: function(driveWrap) {
-            return baseFetch('/rest/drive, {
+            return baseFetch('/rest/drive', {
                 method: 'POST', 
                 body: JSON.stringify(credentials),
                 headers: jsonHeader})

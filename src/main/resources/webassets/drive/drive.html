@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CommuteCompanion - Drive</title>
+        <link rel="stylesheet" href="/font-awesome/css/all.min.css">
+    </head>
+    <body class="text-center">
+        <div class="container">
+            <div class="row top p-3">
+                <div class="col-3">
+                    <p class="card-head">Jon</p>
+                    <p>Male, 23</p>
+                    <p>55 driven</p>
+                    <p>4.4</p>
+                    <p>18 reviews</p>
+                    <div class="circle-grade mt-5 mb-4">4.4</div>
+                </div>
+                <div class="col-5">
+                    <p class="card-head">Gothenburg to Lund</p>
+                    <p>Leaving Wednesday, September 19 at 18:30</p>
+                    <p>Pick Gothenburg</p>
+                    <p>Dropoff Halmstad</p>
+                    <p class="pt-5"><strong><br>Driver comment:</strong> <br> 
+                    I'll be starting in Örgryte, having quick stop in Halmstad at the town square and finish in central Lund. Please no large luggage...
+                    </p>
+                </div>
+                <div class="col-4 car-info">
+                    <p class="card-head">Audi A3 Sportsback</p>
+                    <p>2016</p>
+                    <p>Light Grey</p>
+                    <p class="pb-5">ABC123</p>
+                    <i class="fas fa-caret-right pt-3"></i>Medium luggage ok<br>
+                    <i class="fas fa-caret-right"></i>Har winter tires<br>
+                    <i class="fas fa-caret-right"></i>No bikes<br>
+                    <i class="fas fa-caret-right"></i>Pets ok<br>
+                </div>
+            </div>
+            <div class="row mid px-3">
+                <div class="col-8 p-3 mt-3">
+                    <p class="card-head">Booked: Hedda(4.3), Alicia(3.7)</p>
+                </div>
+                <div class="col request-col-top p-3 mt-3">
+                    <p class="card-head">3 seats left</p>
+                </div>
+            </div>
+            <div class="row bot px-3">
+                <div class="col-4 p-3">
+                    <div class="row">            
+                        <button type="submit" class="btn btn-secondary m-2 buttons">Report drive</button>
+                    </div>
+                    <div class="row">            
+                        <button type="submit" class="btn btn-secondary m-2 buttons">Rate users</button>
+                    </div>
+
+                </div>
+                <div class="col-4 p-3">
+                    <div class="row">            
+                        <button type="submit" class="btn btn-secondary m-2 buttons">Edit drive</button>
+                    </div>
+                    <div class="row">            
+                        <button type="submit" class="btn btn-danger m-2 buttons">Delete drive</button>
+                    </div>
+                    <div class="row">            
+                        <button type="submit" class="btn btn-warning m-2 buttons">Complete drive</button>
+                    </div>
+                </div>
+                <div class="col request-col-bot">
+                    <div class="row">  
+                        <div class="input-group">
+                            <textarea class="form-control m-4" aria-label="With textarea" placeholder="Message to the driver..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-secondary m-4 request-button">Request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="/rest.js"></script>
+        <script src="drive.js"></script>
+        <script type="application/javascript">
+            base.driveController.initOnLoad();
+        </script>
+    </body> 
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CommuteCompanion - Search</title>
+        <link rel="stylesheet" href="/font-awesome/css/all.min.css">
+    </head>
+    <body class="text-center">
+        <div class="container">
+            <form>
+                <div class="row" id="form-row">
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="From">
+                    </div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="To">
+                    </div>
+                    <div class="col-2">
+                        <input type="text" class="form-control" placeholder="Leaving">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container trip-container">
+            <div class="row" id="trip-row">
+                <div class="col test mt-5">
+                    <div class="col my-4">
+                        <div class="card my-3">
+                            <div class="card-body my-1">
+                                <div class="row">
+                                    <div class="col-2 card-pc-outer-left">
+                                        <p class="card-head">Jon</p>
+                                        <p>Male, 23</p>
+                                        <p>55 driven</p>
+                                        <p>4.4</p>
+                                        <p>18 reviews</p>
+                                    </div>
+                                    <div class="col-4 card-pc">
+                                        <p class="card-head">Gothenburg to Lund</p>
+                                        <p>Leaving Wednesday, September 19 at 18:30</p>
+                                        <br>
+                                        <p>Pick Gothenburg</p>
+                                        <p>Dropoff Halmstad</p>
+                                    </div>
+                                    <div class="col-4 card-pc">
+                                        <p class="card-head">Audi Cool model Super</p>
+                                        <p>Turbo car(not for slow people)</p>
+                                    </div>
+                                    <div class="col-2 card-pc-outer-right">
+                                        <p class="card-head">2 Seats left</p>
+                                        <button type="submit" class="btn btn-primary request-btn">Request</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card my-3">
+                            <div class="card-body my-1">
+                                <div class="row">
+                                    <div class="col-2 card-pc-outer-left">
+                                        <p class="card-head">Jon</p>
+                                        <p>Male, 23</p>
+                                        <p>55 driven</p>
+                                        <p>4.4</p>
+                                        <p>18 reviews</p>
+                                    </div>
+                                    <div class="col-4 card-pc">
+                                        <p class="card-head">Gothenburg to Lund</p>
+                                        <p>Leaving Wednesday, September 19 at 18:30</p>
+                                        <br>
+                                        <p>Pick Gothenburg</p>
+                                        <p>Dropoff Halmstad</p>
+                                    </div>
+                                    <div class="col-4 card-pc">
+                                        <p class="card-head">Audi Cool model Super</p>
+                                        <p>Turbo car(not for slow people)</p>
+                                    </div>
+                                    <div class="col-2 card-pc-outer-right">
+                                        <p class="card-head">2 Seats left</p>
+                                        <button type="submit" class="btn btn-primary request-btn">Request</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="/rest.js"></script>
+        <script src="search.js"></script>
+        <script type="application/javascript">
+            base.searchController.initOnLoad();
+        </script>
+    </body> 
+</html>

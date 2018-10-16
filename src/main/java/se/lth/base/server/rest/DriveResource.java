@@ -221,6 +221,11 @@ public class DriveResource {
     @RolesAllowed(Role.Names.USER)
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public DriveReport reportDrive(@PathParam("driveId") int driveId, DriveReport driveReport) {
+        try {
+            mailHandler.notifyUserHasBeenWarned(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return driveReportDao.addDriveReport(driveId, user.getId(), driveReport.getReportMessage());
     }
 

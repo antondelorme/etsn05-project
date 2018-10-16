@@ -2,6 +2,7 @@ package se.lth.base.server.rest;
 
 import se.lth.base.server.Config;
 import se.lth.base.server.data.*;
+import se.lth.base.server.mail.MailHandler;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
@@ -9,6 +10,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class DriveResource {
     private final DriveMilestoneDataAccess driveMilestoneDao = new DriveMilestoneDataAccess(Config.instance().getDatabaseDriver());
     private final DriveReportDataAccess driveReportDao = new DriveReportDataAccess(Config.instance().getDatabaseDriver());
     private final UserDataAccess userDao = new UserDataAccess(Config.instance().getDatabaseDriver());
+    private final MailHandler mailHandler = new MailHandler();
     private final User user;
 
     public DriveResource(@Context ContainerRequestContext context) {
@@ -98,7 +101,18 @@ public class DriveResource {
         if (!driveUserDao.getDriveUser(driveId, user.getId()).isDriver()) {
             throw new WebApplicationException("Only driver allowed to delete drive", Status.UNAUTHORIZED);
         }
+        Drive drive = driveDao.getDrive(driveId);
+        List<DriveUser> users = driveUserDao.getDriveUsersForDrive(driveId);
+        List<DriveMilestone> milestones = driveMilestoneDao.getMilestonesForDrive(driveId);
+        List<DriveReport> reports = driveReportDao.getDriveReportsForDrive(driveId);
 
+        DriveWrap driveWrap = new DriveWrap(drive, milestones, users, reports);
+
+        try {
+            mailHandler.notifyPassengersDriverCancelledDrive(driveWrap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         driveDao.deleteDrive(driveId);
     }
 
@@ -107,8 +121,21 @@ public class DriveResource {
     @RolesAllowed(Role.Names.USER)
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public DriveUser addUserToDrive(@PathParam("driveId") int driveId, DriveUser driveUser) {
-        if (driveDao.getDrive(driveId).getCarNumberOfSeats() > driveUserDao.getNumberOfUsersInDrive(driveId))
+        if (driveDao.getDrive(driveId).getCarNumberOfSeats() > driveUserDao.getNumberOfUsersInDrive(driveId)) {
+            Drive drive = driveDao.getDrive(driveId);
+            List<DriveUser> users = driveUserDao.getDriveUsersForDrive(driveId);
+            List<DriveMilestone> milestones = driveMilestoneDao.getMilestonesForDrive(driveId);
+            List<DriveReport> reports = driveReportDao.getDriveReportsForDrive(driveId);
+
+            DriveWrap driveWrap = new DriveWrap(drive, milestones, users, reports);
+
+            try {
+                mailHandler.notifyDriverNewPassengerOnTrip(driveWrap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return driveUserDao.addDriveUser(driveId, user.getId(), driveUser.getStart(), driveUser.getStop(), !IS_DRIVER, !IS_ACCEPTED, !IS_RATED);
+        }
 
         throw new WebApplicationException("No available seats left", Status.PRECONDITION_FAILED);
     }
@@ -119,6 +146,20 @@ public class DriveResource {
     public DriveUser acceptUserInDrive(@PathParam("driveId") int driveId, @PathParam("userId") int userId) {
         if (driveUserDao.getDriveUser(driveId, user.getId()).isDriver()) {
             driveUserDao.acceptDriveUser(driveId, userId);
+
+            Drive drive = driveDao.getDrive(driveId);
+            List<DriveUser> users = driveUserDao.getDriveUsersForDrive(driveId);
+            List<DriveMilestone> milestones = driveMilestoneDao.getMilestonesForDrive(driveId);
+            List<DriveReport> reports = driveReportDao.getDriveReportsForDrive(driveId);
+
+            DriveWrap driveWrap = new DriveWrap(drive, milestones, users, reports);
+
+            try {
+                mailHandler.notifyPassengerBookingConfirmed(driveWrap, userDao.getUser(userId));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return driveUserDao.getDriveUser(driveId, userId);
         }
 
@@ -133,6 +174,26 @@ public class DriveResource {
             throw new WebApplicationException("Only driver or yourself allowed to delete", Status.UNAUTHORIZED);
         }
 
+        Drive drive = driveDao.getDrive(driveId);
+        List<DriveUser> users = driveUserDao.getDriveUsersForDrive(driveId);
+        List<DriveMilestone> milestones = driveMilestoneDao.getMilestonesForDrive(driveId);
+        List<DriveReport> reports = driveReportDao.getDriveReportsForDrive(driveId);
+
+        DriveWrap driveWrap = new DriveWrap(drive, milestones, users, reports);
+
+        if (driveUserDao.getDriveUser(driveId, user.getId()).isDriver()) {
+            try {
+                mailHandler.notifyPassengerDriverRemovedPassenger(driveWrap, userDao.getUser(userId));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (user.getId() == userId) {
+            try {
+                mailHandler.notifyDriverPassengerCancelledTrip(driveWrap, userDao.getUser(userId));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         driveUserDao.deleteDriveUser(driveId, userId);
     }
 
@@ -152,7 +213,6 @@ public class DriveResource {
             }
             driveUserDao.hasRated(user.getId(), driveId);
     	}
-      
     	throw new WebApplicationException("You have already rated", Status.UNAUTHORIZED);
     }
 

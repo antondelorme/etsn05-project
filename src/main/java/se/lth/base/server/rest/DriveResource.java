@@ -183,7 +183,12 @@ public class DriveResource {
 
         if (driveUserDao.getDriveUser(driveId, user.getId()).isDriver()) {
             try {
-                mailHandler.notifyPassengerDriverRemovedPassenger(driveWrap, userDao.getUser(userId));
+                if (driveUserDao.getDriveUser(driveId, userId).isAccepted()) {
+                    mailHandler.notifyPassengerDriverRemovedPassenger(driveWrap, userDao.getUser(userId));
+                } else {
+                    mailHandler.notifyPassengerDriverRemovedPassenger(driveWrap, userDao.getUser(userId));
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -27,8 +27,6 @@ import java.util.regex.Pattern;
  * @author Rasmus Ros, rasmus.ros@cs.lth.se
  */
 public class Credentials {
-
-    // Password hashing function parameters.
     private static final int SIZE = 256;
     private static final int ITERATION_COST = 16;
     private static final String ALGORITHM = "PBKDF2WithHmacSHA1";
@@ -38,6 +36,14 @@ public class Credentials {
     private final Role role;
     private final User user;
 
+    /**
+     * Creates a new Credentials object
+     *
+     * @param email user email
+     * @param password user password
+     * @param role user role
+     * @param user user info
+     */
     public Credentials(String email, String password, Role role, User user) {
         this.email = email;
         this.password = password;
@@ -49,18 +55,38 @@ public class Credentials {
         return new SecureRandom().nextLong();
     }
 
+    /**
+     * Get a user's email
+     *
+     * @return user email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Get a user's role
+     *
+     * @return user role
+     */
     public Role getRole() {
         return role;
     }
 
+    /**
+     * Get user info
+     *
+     * @return user object
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Check if the credentials object has a password
+     *
+     * @return true/false
+     */
     public boolean hasPassword() {
         return password != null;
     }
@@ -96,10 +122,18 @@ public class Credentials {
         return sb.toString();
     }
 
+    /**
+     * Sanitize the credential object from faulty input
+     */
     public void sanitizeAndValidate() {
         sanitizeAndValidate(true);
     }
 
+    /**
+     * Sanitize the credential object from faulty input
+     *
+     * @param checkPass if checks should be made on the password
+     */
     public void sanitizeAndValidate(boolean checkPass) {
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
@@ -181,7 +215,7 @@ public class Credentials {
         }
 
         // Check password
-        if (checkPass && password.matches("^(?=.*[^A-z]{3,}).{8,}$")) {
+        if (checkPass && !password.matches("^(?=.*\\d)(?=.*\\d)(?=.*\\d).{7,}$")) {
             throw new WebApplicationException("Password not secure enough, minimum 8 characters whereof 3 non alpha", Response.Status.BAD_REQUEST);
         }
     }

@@ -54,14 +54,15 @@ CREATE TABLE drive_milestone(milestone_id INT AUTO_INCREMENT,
                              PRIMARY KEY(milestone_id),
                              FOREIGN KEY(drive_id) REFERENCES drive(drive_id) ON DELETE CASCADE);
 
-CREATE TABLE drive_user(drive_id INT NOT NULL,
+CREATE TABLE drive_user(drive_user_id INT AUTO_INCREMENT,
+                        drive_id INT NOT NULL,
                         user_id INT NOT NULL,
                         start VARCHAR(255) NOT NULL,
                         stop VARCHAR(255) NOT NULL,
                         is_driver BOOLEAN NOT NULL DEFAULT FALSE,
                         accepted BOOLEAN NOT NULL DEFAULT FALSE,
                         rated BOOLEAN NOT NULL DEFAULT FALSE,
-                        PRIMARY KEY(drive_id, user_id),
+                        PRIMARY KEY(drive_user_id),
                         FOREIGN KEY(drive_id) REFERENCES drive(drive_id) ON DELETE CASCADE,
                         FOREIGN KEY(user_id) REFERENCES user(user_id) ON DELETE CASCADE);
 

@@ -11,10 +11,12 @@ window.base.createDriveController = (() => {
         render: () => window.base.rest.getUser().then(u => {
             model.user = u;
         }).then(u => {
-            window.base.rest.getDriveForUser(model.user.userId).then(d => {
+            window.base.rest.getDrivesForUser(model.user.userId).then(d => {
                 model.driveWraps = d;
                 if (d.length === 0 || model.theId.id === undefined) {
                     document.getElementById('drive-header').innerHTML = 'Create Drive';
+                    document.getElementById('passenger-header').remove();
+                    document.getElementById('passenger-col').remove();
                 } else {
                     document.getElementById('drive-header').innerHTML = 'Edit Drive';
                     for (var i = 0; i < d.length; i++) {
@@ -127,25 +129,47 @@ window.base.createDriveController = (() => {
         },
 
         addStop: (text) => {
-            const counter = document.querySelectorAll("#stop-row .stop-div").length;
-            const stopDiv = document.createElement('div');
-            const col = document.createElement('div')
-            const colMd = document.createElement('div');
-            col.className = 'col';
-            colMd.className = 'col-md';
-            stopDiv.className = 'row mt-2 stop-div';
-            stopDiv.id = 'stop-' + (counter + 1);
-            const textArea = document.createElement('textarea');
-            const label = document.createElement('label');
-            label.innerHTML = 'Stop ' + (counter + 1);
-            textArea.id = 'set-stop-' + (counter+1);
-            textArea.className = 'form-control';
-            textArea.innerHTML = text;
-            colMd.append(label);
-            colMd.appendChild(textArea);
-            col.append(colMd);
-            stopDiv.append(col);
-            document.getElementById('stop-row').append(stopDiv);
+            if (typeof(text) == 'object'){
+                const counter = document.querySelectorAll("#stop-row .stop-div").length;
+                const stopDiv = document.createElement('div');
+                const col = document.createElement('div')
+                const colMd = document.createElement('div');
+                col.className = 'col';
+                colMd.className = 'col-md';
+                stopDiv.className = 'row mt-2 stop-div';
+                stopDiv.id = 'stop-' + (counter + 1);
+                const textArea = document.createElement('textarea');
+                const label = document.createElement('label');
+                label.innerHTML = 'Stop ' + (counter + 1);
+                textArea.id = 'set-stop-' + (counter+1);
+                textArea.className = 'form-control';
+                colMd.append(label);
+                colMd.appendChild(textArea);
+                col.append(colMd);
+                stopDiv.append(col);
+                document.getElementById('stop-row').append(stopDiv);
+                textArea.innerHTML = '';
+            } else {
+                const counter = document.querySelectorAll("#stop-row .stop-div").length;
+                const stopDiv = document.createElement('div');
+                const col = document.createElement('div')
+                const colMd = document.createElement('div');
+                col.className = 'col';
+                colMd.className = 'col-md';
+                stopDiv.className = 'row mt-2 stop-div';
+                stopDiv.id = 'stop-' + (counter + 1);
+                const textArea = document.createElement('textarea');
+                const label = document.createElement('label');
+                label.innerHTML = 'Stop ' + (counter + 1);
+                textArea.id = 'set-stop-' + (counter+1);
+                textArea.className = 'form-control';
+                colMd.append(label);
+                colMd.appendChild(textArea);
+                col.append(colMd);
+                stopDiv.append(col);
+                document.getElementById('stop-row').append(stopDiv);
+                textArea.innerHTML = text;
+            }
         },
 
         createDrive: () => {
@@ -212,7 +236,8 @@ window.base.createDriveController = (() => {
                     alert(d.error);
                 }
             }).then(() => {
-                view.render();
+                view.render(model.theId.id);
+                alert('Drive has been created');
             });
         },
 

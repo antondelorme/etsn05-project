@@ -1,65 +1,22 @@
 <h1>Reported drives</h1>
-
-<div class="card reported-drives">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-lg-10">
-                <div class="card reported-drives">
-                    <div class="card-header">
-                        <h5 class="card-title">Gothenburg to Lund, 2023-20-10 25:85</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-8">
-                                <p class="card-text">Driver: Jon Stålhammar</p>
-                                <p class="card-text">Reported by: Hedda Malmström</p>
-                            </div>
-                            <div class="col-4">
-                                <p class="card-text"> Rating 0.4 | 123 warnings</p>
-                                <p class="card-text"> Rating 0.4 | 44 warnings</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card reported-drives">
-                    <div class="card-header">
-                        <h5 clas="card-title">Comment</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">He tried to hit me n' stuff.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <button id="dismiss-report" type="button" class="btn btn-block btn-success">Dismiss report</button>
-                <button id="warn-driver" type="button" class="btn btn-block btn-warning">Warn driver</button>
-                <button id="warn-reporter" type="button" class="btn btn-block btn-warning">Warn reporter</button>
-                <button id="remove-driver" type="button" class="btn btn-block btn-danger">Remove driver</button>
-                <button id="remove-reporter" type="button" class="btn btn-block btn-danger">Remove reporter</button>
-                <button id="delete-drive" type="button" class="btn btn-block btn-danger">Delete drive</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="card reported-drives">
+<template id="reported-drives-template">
+    <div class="card reported-drives">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-10">
                     <div class="card reported-drives">
                         <div class="card-header">
-                            <h5 class="card-title">Gothenburg to Lund, 2023-20-10 25:85</h5>
+                            <h5 class="card-title report-start-destination-time"></h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-8">
-                                    <p class="card-text">Driver: Jon Stålhammar</p>
-                                    <p class="card-text">Reported by: Hedda Malmström</p>
+                                    <p class="card-text report-driver"></p>
+                                    <p class="card-text report-reported-by"></p>
                                 </div>
                                 <div class="col-4">
-                                    <p class="card-text"> Rating 0.4 | 123 warnings</p>
-                                    <p class="card-text"> Rating 0.4 | 44 warnings</p>
+                                    <p class="card-text report-driver-rating-warning"></p>
+                                    <p class="card-text report-reported-by-rating-warning"> Rating 0.4 | 44 warnings</p>
                                 </div>
 
                             </div>
@@ -68,21 +25,22 @@
 
                     <div class="card reported-drives">
                         <div class="card-header">
-                            <h5 clas="card-title">Comment</h5>
+                            <h5 class="card-title">Comment</h5>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">He tried to hit me n' stuff.</p>
+                            <p class="card-text report-comment"></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2">
-                    <button id="dismiss-report" type="button" class="btn btn-block btn-success">Dismiss report</button>
-                    <button id="warn-driver" type="button" class="btn btn-block btn-warning">Warn driver</button>
-                    <button id="warn-reporter" type="button" class="btn btn-block btn-warning">Warn reporter</button>
-                    <button id="remove-driver" type="button" class="btn btn-block btn-danger">Remove driver</button>
-                    <button id="remove-reporter" type="button" class="btn btn-block btn-danger">Remove reporter</button>
-                    <button id="delete-drive" type="button" class="btn btn-block btn-danger">Delete drive</button>
+                    <button type="button" class="btn btn-block btn-success dismiss-report-button">Dismiss report</button>
+                    <button type="button" class="btn btn-block btn-warning warn-driver-button">Warn driver</button>
+                    <button type="button" class="btn btn-block btn-warning warn-reporter-button">Warn reporter</button>
+                    <button type="button" class="btn btn-block btn-danger remove-driver-button">Remove driver</button>
+                    <button type="button" class="btn btn-block btn-danger remove-reporter-button">Remove reporter</button>
+                    <button type="button" class="btn btn-block btn-danger delete-drive-button">Delete drive</button>
                 </div>
             </div>
         </div>
     </div>
+</template>

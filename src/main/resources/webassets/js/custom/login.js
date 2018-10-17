@@ -10,7 +10,7 @@ window.base.loginController = (() => {
 
             classList.remove('d-none');
 
-            alert.innerHTML = `<h4 class="alert-heading">Oops!</h4><p>Something went wrong, error message: ${msg}</p>`;
+            alert.innerHTML = `<h5 class="alert-heading">Oops!</h5><p>Something went wrong, error message: ${msg}</p>`;
         }
     };
 

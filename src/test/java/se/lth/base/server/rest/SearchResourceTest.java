@@ -130,16 +130,19 @@ public class SearchResourceTest extends BaseResourceTest {
         Assert.assertEquals(2, response.size());
     }
 
-    @Test
+
+    //@Test
+    // NO LONGER VALID (since advanced drive search is disabled in back-end)
     /*
         Drive is A -> E (with max 1 passenger)
         Already one trip from A -> C
         Trip from B -> C should not be possible
         Trip from C -> E should be possible
      */
+    /*
     public void getDrivesWithEnoughSeats() {
         DriveUserDataAccess driveUserDao = new DriveUserDataAccess(Config.instance().getDatabaseDriver());
-        driveUserDao.addDriveUser(drive1Id, user2Id, "A", "C", false, false, false);
+        driveUserDao.addDriveUser(drive1Id, user2Id, "A", "C", false, true, false);
 
         login(SEARCH_TEST_CREDENTIALS_2);
         long timestamp1User = new Timestamp(2018 - 1900, 10, 20, 12, 0, 0, 0).getTime();
@@ -164,13 +167,36 @@ public class SearchResourceTest extends BaseResourceTest {
 
         Assert.assertEquals(1, response2.size());
     }
+    */
+
+    /*
+        Drive is A -> E (with max 1 passenger)
+        Add one passenger
+        Make sure that drive is not included in result from getDrives(SearchFilter)
+     */
+    @Test
+    public void verifyUserNotReceivingFullDrives() {
+        DriveUserDataAccess driveUserDao = new DriveUserDataAccess(Config.instance().getDatabaseDriver());
+        driveUserDao.addDriveUser(drive1Id, user2Id, "A", "E", false, true, false);
+
+        login(SEARCH_TEST_CREDENTIALS_2);
+        long timestamp1User = new Timestamp(2018 - 1900, 10, 20, 11, 45, 0, 0).getTime();
+        SearchFilter searchFilter1 = new SearchFilter(-1, -1, "A", "E", timestamp1User);
+
+        // We actually receive a List<LinkedTreeMap<String, Object>>
+        List<DriveWrap> response1 = target("search")
+                .path("drives")
+                .request()
+                .post(Entity.json(searchFilter1), List.class);
+
+        Assert.assertEquals(0, response1.size());
+    }
 
     @Test
     /*
         New trip from B -> E (13.00) should match with drive 2 (A - E) (C - 13.05)
         New trip from B -> E (17.00) should not match with any drive
      */
-
     public void getDrivesMatchingTime() {
         login(SEARCH_TEST_CREDENTIALS_2);
 
@@ -195,8 +221,6 @@ public class SearchResourceTest extends BaseResourceTest {
                 .post(Entity.json(searchFilter2), List.class);
 
         Assert.assertEquals(0, response2.size());
-
-
     }
 
     @Test
@@ -284,40 +308,4 @@ public class SearchResourceTest extends BaseResourceTest {
 
     }
     */
-
-    /**
-     * Make long booking 2018-10-20 12.00 - 18.00
-     * Try to att user to drive 1 (2018-10-20 12.00-12.30)
-     * Should be conflict
-     */
-    @Test
-    public void bookingOverlap() {
-        // Data access objects
-        DriveDataAccess driveDao = new DriveDataAccess(Config.instance().getDatabaseDriver());
-        DriveMilestoneDataAccess driveMilestoneDao = new DriveMilestoneDataAccess(Config.instance().getDatabaseDriver());
-        DriveUserDataAccess driveUserDao = new DriveUserDataAccess(Config.instance().getDatabaseDriver());
-
-        // Create long lasting drive
-        // Drive 4
-        long timestamp4 = new Timestamp(2018 - 1900, 10, 20, 12, 0, 0, 0).getTime();
-        long timestamp4_2 = new Timestamp(2018 - 1900, 10, 20, 18, 0, 0, 0).getTime();
-        Drive drive4 = driveDao.addDrive(new Drive(-1, "A", "F", timestamp4, timestamp4_2, "Comment", "x", "x", "x", "x", 1, 1, false, false, false));
-        int drive4Id = drive4.getDriveId();
-        long timestamp4_1 = new Timestamp(2018 - 1900, 10, 20, 12, 30, 0, 0).getTime();
-        driveMilestoneDao.addMilestone(drive4Id, "B", timestamp4_1);
-
-        // Add user to long lasting drive
-        driveUserDao.addDriveUser(drive4Id, user3Id, "A", "B", false, false, false);
-
-        login(SEARCH_TEST_CREDENTIALS_1);
-
-        // Check for overlaps
-        // We actually receive a List<LinkedTreeMap<String, Object>>
-        List<Drive> response = target("search")
-                .path("checkbookingoverlap/" + drive1Id + "/A/C")
-                .request()
-                .get(List.class);
-
-        Assert.assertEquals(1, response.size());
-    }
 }

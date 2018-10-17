@@ -81,7 +81,7 @@ public class DriveDataAccess extends DataAccess<Drive> {
     }
 
     public List<Drive> getReportedDrives() {
-        return query("SELECT * FROM drive INNER JOIN drive_report ON drive.drive_id");
+        return query("SELECT * FROM drive INNER JOIN drive_report ON drive.drive_id = drive_report.drive_id");
     }
 
     private static final class DriveMapper implements Mapper<Drive> {

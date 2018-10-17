@@ -40,7 +40,7 @@ public class DriveUserDataAccess extends DataAccess<DriveUser> {
         execute("INSERT INTO drive_user (drive_id, user_id, start, stop, is_driver, accepted, rated) VALUES (?,?,?,?,?,?,?)",
                 driveId, userId, start, stop, driver, accepted, rated);
 
-        return new DriveUser(driveId, userId, start, stop, driver, accepted, !HAS_RATED);
+        return new DriveUser(driveId, userId, start, stop, driver, accepted, rated);
     }
 
     public DriveUser updateDriveUser(int driveId, int userId, String start, String stop, boolean driver, boolean accepted, boolean rated) {
@@ -83,7 +83,7 @@ public class DriveUserDataAccess extends DataAccess<DriveUser> {
     }
 
     public int getNumberOfDrivesForUser(int userId) {
-        ResultSet result = openQuery("SELECT COUNT(*) FROM drive_user, drive WHERE drive_user.is_driver = ? " +
+        ResultSet result = openQuery("SELECT COUNT(*) FROM drive_user INNER JOIN drive ON drive_user.drive_id = drive.drive_id WHERE drive_user.is_driver = ? " +
                 "AND drive_user.user_id = ? AND drive.drive_id = drive_user.drive_id " +
                 "AND drive.arrival_time < CURRENT_TIMESTAMP()", IS_DRIVER, userId);
 

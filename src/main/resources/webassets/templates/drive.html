@@ -1,138 +1,155 @@
-<div class="row">
-    <div class="col-2">
-        <h5 class="mb-0 font-weight-bold" id="driver-first-name">Jon</h5>
-        <p class="text-muted"><span id="driver-gender">Male</span>, <span id="driver-age">23</span></p>
-        <div class="row mt-3">
-            <div class="col-2">
-                <p class="mb-0 text-muted"><i class="fas fa-car fa-sm"></i></p>
-                <p class="text-muted mb-0"><i class="fas fa-star fa-sm"></i></p>
-                <p class="text-muted"><i class="fas fa-chart-bar fa-sm"></i></p>
-            </div>
-            <div class="col-9">
-                <p class="text-muted mb-0"><span id="driver-driven"></span>55 driven</p>
-                <p class="text-muted mb-0"><span id="driver-rating">4.3</span> rating</p>
-                <p class="text-muted"><span id="driver-reviews">18</span> reviews</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-6">
-        <h5 class="mb-0 text-danger font-weight-bold" id="drive-name">Gothenburg to Lund</h5>
-        <div class="row">
-            <div class="col-3">
-                <p class="text-muted font-weight-bold">
-                    <i class="fas fa-clock"></i> Leaving:
-                </p>
-                <p class="text-muted mb-0 font-weight-bold">
-                    <i class="fas fa-map-marker-alt text-danger"></i> Pickup:
-                </p>
-                <p class="text-muted font-weight-bold">
-                    <i class="fas fa-map-marker-alt text-info"></i> Dropoff:
-                </p>
-            </div>
-            <div class="col-9">
-                <p class="text-muted font-weight-bold" id="drive-departure-time">Wednesday January 23, 16:00</p>
-                <p class="text-muted mb-0 font-weight-bold" id="drive-pickup">Gothenburg (~16:00)</p>
-                <p class="text-muted font-weight-bold" id="drive-dropff">Halmstad (~17.30)</p>
+<div id="drive-content" class="d-none">
+    <div class="row">
+        <div class="col-2">
+            <h5 class="mb-0 font-weight-bold" id="driver-first-name"></h5>
+            <p class="text-muted"><span id="driver-gender"></span>, <span id="driver-age"></span></p>
+            <div class="row mt-3">
+                <div class="col-2">
+                    <p class="mb-0 text-muted"><i class="fas fa-car fa-sm"></i></p>
+                    <p class="text-muted mb-0"><i class="fas fa-star fa-sm"></i></p>
+                    <p class="text-muted"><i class="fas fa-chart-bar fa-sm"></i></p>
+                </div>
+                <div class="col-9">
+                    <p class="text-muted mb-0"><span id="driver-driven"></span> driven</p>
+                    <p class="text-muted mb-0"><span id="driver-rating"></span> rating</p>
+                    <p class="text-muted"><span id="driver-reviews"></span> reviews</p>
+                </div>
             </div>
         </div>
-        <p class="text-muted font-italic" id="drive-comment">"I'll be starting in Örgryte, having quick stop in Halmstad
-            at the town square and finish in central Lund. Please no large luggage..."</p>
-    </div>
-    <div class="col-4">
-        <div class="border border-r-5 pl-2 pr-2">
-            <h5 class="mb-0 font-weight-bold"><span id="car-brand"></span> <span id="car-model">A3 Sportsback</span>
-            </h5>
-            <p class="mb-0 text-muted">
-                <span id="car-year">2016</span> |
-                <span id="car-license-plate">DBG400</span>
-                <a target="_blank" id="car-license-plate-link" href="https://biluppgifter.se/fordon/DBG400">(car
-                    details)</a>
-            </p>
-            <p class="text-muted" id="car-color">Light Grey</p>
+        <div class="col-6">
+            <h5 class="mb-0 text-danger font-weight-bold" id="drive-name"></h5>
             <div class="row">
-                <div class="col-1">
-                    <p id="opt-luggage-icon" class="mb-0"><i class="fas fa-suitcase"></i></p>
-                    <p id="opt-winter-tires-icon" class="mb-0"><i class="fas fa-snowflake"></i></p>
-                    <p id="opt-bicycle-icon" class="mb-0"><i class="fas fa-bicycle"></i></p>
-                    <p id="opt-pets-icon" class="mb-0"><i class="fas fa-paw"></i></p>
+                <div class="col-3">
+                    <p class="text-muted font-weight-bold">
+                        <i class="fas fa-clock"></i> Leaving:
+                    </p>
+                    <p class="text-muted mb-0 font-weight-bold">
+                        <i class="fas fa-map-marker-alt text-danger"></i> Pickup:
+                    </p>
+                    <p class="text-muted font-weight-bold">
+                        <i class="fas fa-map-marker-alt text-info"></i> Dropoff:
+                    </p>
                 </div>
-                <div class="col-11">
-                    <p id="opt-luggage-text" class="mb-0 text-muted">Medium luggage ok</p>
-                    <p id="opt-winter-tires-text" class="mb-0 text-muted">Has winter tires</p>
-                    <p id="opt-bicycle-text" class="mb-0 text-muted">No bikes</p>
-                    <p id="opt-pets-text" class="mb-0 text-muted">Pets ok</p>
+                <div class="col-9">
+                    <p class="text-muted font-weight-bold" id="drive-departure-time"></p>
+                    <p class="text-muted mb-0 font-weight-bold">
+                        <span id="drive-pickup"></span>
+                        (~<span id="drive-pickup-time"></span>)
+                    </p>
+                    <p class="text-muted font-weight-bold" id="drive-dropoff"></p>
+                </div>
+            </div>
+            <p class="text-muted font-italic" id="drive-comment"></p>
+        </div>
+        <div class="col-4">
+            <div class="border border-r-5 pl-2 pr-2">
+                <h5 class="mb-0 font-weight-bold"><span id="car-brand"></span> <span id="car-model"></span>
+                </h5>
+                <p class="text-muted mb-2">
+                    <span id="car-color"></span> |
+                    <span id="car-license-plate"></span>
+                    <a target="_blank" id="car-license-plate-link" href="">(car details)</a>
+                </p>
+                <div class="row">
+                    <div class="col-1">
+                        <p id="opt-luggage-icon" class="mb-0"><i class="fas fa-suitcase"></i></p>
+                        <p id="opt-winter-tires-icon" class="mb-0"><i class="fas fa-snowflake"></i></p>
+                        <p id="opt-bicycle-icon" class="mb-0"><i class="fas fa-bicycle"></i></p>
+                        <p id="opt-pets-icon" class="mb-0"><i class="fas fa-paw"></i></p>
+                    </div>
+                    <div class="col-11">
+                        <p id="opt-luggage-text" class="mb-0 text-muted"></p>
+                        <p id="opt-winter-tires-text" class="mb-0 text-muted"></p>
+                        <p id="opt-bicycle-text" class="mb-0 text-muted"></p>
+                        <p id="opt-pets-text" class="mb-0 text-muted"></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="mt-4 blue-strip-fw">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <table class="h-100 w-100">
-                    <tr>
-                        <td class="align-middle">
-                            <span class="text-white">
-                                <span class="font-weight-bold">Booked:</span>
-                                <span id="drive-passengers">Hedda (<i class="fas fa-star fa-sm"></i></i> 4.3),
-                                    Alicia (<i class="fas fa-star fa-sm"></i></i> 3.7)</span>
-                            </span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col-md-4">
-                <div class="bg-danger pl-2">
-                    <table class="h-100px w-100">
+    <div class="mt-4 blue-strip-fw">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="h-100 w-100">
                         <tr>
                             <td class="align-middle">
-                                <span id="drive-seats-left" class="font-weight-bold text-white">3 seats left</span>
+                            <span class="text-white">
+                                <span class="font-weight-bold">Booked: </span>
+                                <span id="drive-passengers"></span>
+                            </span>
                             </td>
                         </tr>
                     </table>
                 </div>
+                <div class="col-md-4">
+                    <div class="bg-danger pl-2">
+                        <table class="h-100px w-100">
+                            <tr>
+                                <td class="align-middle">
+                                <span class="font-weight-bold text-white">
+                                    <span id="drive-seats-left"></span> seats left
+                                </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="drive-gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mt-3">
+                    <button id="report-modal-trigger" class="btn btn-danger btn-block">Report trip</button>
+                </div>
+                <div class="col-md-5 mt-3">
+                    <h5 class="text-muted">Travel safely with amazing people</h5>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <i class="fas fa-smile text-secondary fa-2x"></i>
+                            <h5 class="text-muted mt-2">Easy to use</h5>
+                            <p class="text-muted">We are handling all the hard part with matching together commuters, just
+                                hit
+                                request to try it out.</p>
+                        </div>
+                        <div class="col-6">
+                            <i class="fas fa-user-shield text-danger fa-2x"></i>
+                            <h5 class="text-muted mt-2">Trusted service</h5>
+                            <p class="text-muted">Travel in peace knowing all members are verified and that we listen to our
+                                users.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="border border-top-0 border-rb-5 p-2 bg-white">
+                        <div id="request-alert-box" class="alert d-none" role="alert"></div>
+                        <p class="text-muted">Book your seat online to ensure a spot on the trip, it's safer and more reliable!
+                        </p>
+                        <button id="drive-request" class="btn btn-secondary mt-2 btn-block">Request</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="drive-gray-bg">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 mt-3">
-                <button id="report-drive" class="btn btn-danger btn-block">Report trip</button>
-                <hr class="driver-only finished-only d-none">
-                <button id="rate-drive" class="finished-only btn btn-secondary btn-block d-none">Rate your trip</button>
-                <button id="complete-drive" class="driver-only btn btn-secondary btn-block d-none">Complete</button>
-                <hr class="driver-only d-none">
-                <button id="edit-drive" class="driver-only btn btn-warning btn-block d-none">Edit</button>
-                <button id="delete-drive" class="driver-only btn btn-danger btn-block d-none">Delete</button>
-            </div>
-            <div class="col-md-5 mt-3">
-                <h5 class="text-muted">Travel safely with amazing people</h5>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <i class="fas fa-smile text-secondary fa-2x"></i>
-                        <h5 class="text-muted mt-2">Easy to use</h5>
-                        <p class="text-muted">We are handling all the hard part with matching together commuters, just
-                            hit
-                            request to try it out.</p>
+
+<!-- Modal -->
+<div class="modal fade" id="report-modal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="report-alert-box" class="alert d-none" role="alert"></div>
+                <form id="report-form">
+                    <div class="form-group">
+                        <label for="report-message"><h5 class="text-muted">Report message</h5></label>
+                        <textarea class="form-control" id="report-message" rows="3"></textarea>
                     </div>
-                    <div class="col-6">
-                        <i class="fas fa-user-shield text-danger fa-2x"></i>
-                        <h5 class="text-muted mt-2">Trusted service</h5>
-                        <p class="text-muted">Travel in peace knowing all members are verified and that we listen to our
-                            users.</p>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-danger">Submit report</button>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="border border-top-0 border-rb-5 p-2 bg-white">
-                    <div id="alert-box" class="alert d-none" role="alert"></div>
-                    <p class="text-muted">Book your seat online to ensure a spot on the trip, it's safer and more reliable!
-                    </p>
-                    <button id="drive-request" class="btn btn-secondary mt-2 btn-block">Request</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>

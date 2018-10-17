@@ -519,7 +519,7 @@ public class CustomEmail {
 
         // Intro
         String intro = "<p>Hi " + singleUser.getFirstName() + ",</p>";
-        intro += "<p>The driver " + driverU.getFirstName() + " has removed you from your trip on ";
+        intro += "<p>The driver " + driverU.getFirstName() + " has denied/removed you from your trip on ";
         intro += formattedDepartureDate + ". We apologize for the inconvenience.</p>";
         content.put(INTRO, intro);
 

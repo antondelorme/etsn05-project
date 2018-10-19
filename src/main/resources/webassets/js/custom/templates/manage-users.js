@@ -85,18 +85,6 @@ window.base.manageUsersController = (() => {
                     item.parentElement.removeChild(item);
                 });
             };
-
-/*             window.base.rest.deleteUser(user.userId).then(function () {
-                // Remove user from lists so next search is correct.
-                model.users = controller.remove(model.users, user);
-                model.searchedUsers = controller.remove(model.searchedUsers, user);
-
-                // Remove element (This can't be done in render since it won't find 
-                // the user due to it being removed in the list.)
-                const item = document.getElementById('manage-user-card' + user.userId);
-                item.parentElement.removeChild(item);
-            }); */
-
         },
 
         editProfile: user => {

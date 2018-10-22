@@ -265,11 +265,18 @@ public class SearchResource {
         // Get all drives
         List<Drive> drives = driveDao.getDrives();
         Iterator<Drive> iterator = drives.iterator();
+        long now = new Date().getTime();
 
         if ((tripStart == null || tripStart.isEmpty()) && (tripStop == null || tripStop.isEmpty()) && departureTime == null) {
             // Drives are returned in most recently created drive first (need a created date in Drive class)
             Collections.reverse(drives);
-            return drives;
+            List<Drive> onlyDrivesInFuture = new ArrayList<>();
+            drives.forEach(d -> {
+                if (now < d.getDepartureTime()) {
+                    onlyDrivesInFuture.add(d);
+                }
+            });
+            return onlyDrivesInFuture;
         }
 
         boolean resetStart = tripStart == null;
@@ -295,7 +302,7 @@ public class SearchResource {
                 tripStop = driveMilestones.get(driveMilestones.size() - 1).getMilestone();
             }
 
-            if (!(doesTripStartExist(tripStart, driveMilestones) && doesTripStopExist(tripStop, driveMilestones) &&
+            if (now > drive.getDepartureTime() || !(doesTripStartExist(tripStart, driveMilestones) && doesTripStopExist(tripStop, driveMilestones) &&
                     !isTripStartSameAsTripStop(tripStart, tripStop) && isTripStartBeforeTripStop(tripStart, tripStop, driveMilestones))) {
                 iterator.remove();
                 continue;
